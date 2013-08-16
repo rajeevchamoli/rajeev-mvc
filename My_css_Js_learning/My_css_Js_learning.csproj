@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{52733098-7EEB-4BF2-9ABF-34069D6C1A59}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>My_css_Js_learning</RootNamespace>
+    <AssemblyName>My_css_Js_learning</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ElementStack_Page.html" />
+    <Content Include="HtmlPage1.html" />
+    <Content Include="jquery-tmpl-master\demos\movies\components\jquery-ui-1.8.1.custom.js" />
+    <Content Include="jquery-tmpl-master\demos\movies\components\jquery-ui-1.8.1.custom.min.js" />
+    <Content Include="jquery-tmpl-master\demos\movies\components\jquery.pager.js" />
+    <Content Include="jquery-tmpl-master\demos\movies\css\jquery-ui-1.8.1.custom.css" />
+    <Content Include="jquery-tmpl-master\demos\movies\css\movies.css" />
+    <Content Include="jquery-tmpl-master\demos\movies\images\ui-bg_diagonals-thick_75_f3d8d8_40x40.png" />
+    <Content Include="jquery-tmpl-master\demos\movies\images\ui-bg_dots-small_65_a6a6a6_2x2.png" />
+    <Content Include="jquery-tmpl-master\demos\movies\images\ui-bg_flat_0_333333_40x100.png" />
+    <Content Include="jquery-tmpl-master\demos\movies\images\ui-bg_flat_65_ffffff_40x100.png" />
+    <Content Include="jquery-tmpl-master\demos\movies\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="jquery-tmpl-master\demos\movies\images\ui-bg_glass_55_fbf8ee_1x400.png" />
+    <Content Include="jquery-tmpl-master\demos\movies\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="jquery-tmpl-master\demos\movies\images\ui-bg_highlight-hard_100_eeeeee_1x100.png" />
+    <Content Include="jquery-tmpl-master\demos\movies\images\ui-bg_highlight-hard_100_f6f6f6_1x100.png" />
+    <Content Include="jquery-tmpl-master\demos\movies\images\ui-bg_highlight-soft_15_cc0000_1x100.png" />
+    <Content Include="jquery-tmpl-master\demos\movies\images\ui-icons_004276_256x240.png" />
+    <Content Include="jquery-tmpl-master\demos\movies\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="jquery-tmpl-master\demos\movies\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="jquery-tmpl-master\demos\movies\PagesCore\movies.html" />
+    <Content Include="jquery-tmpl-master\demos\movies\PagesCore\moviesNoGlobals.html" />
+    <Content Include="jquery-tmpl-master\demos\movies\PagesTmplPlus\movies1.html" />
+    <Content Include="jquery-tmpl-master\demos\movies\PagesTmplPlus\movies2.html" />
+    <Content Include="jquery-tmpl-master\demos\movies\PagesTmplPlus\movies3.html" />
+    <Content Include="jquery-tmpl-master\demos\resources\demos.css" />
+    <Content Include="jquery-tmpl-master\demos\resources\movielist.css" />
+    <Content Include="jquery-tmpl-master\demos\resources\syntaxhighlighter.css" />
+    <Content Include="jquery-tmpl-master\demos\resources\syntaxhighlighter.min.js" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\basic.html" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\composition.html" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\conditional.html" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\each.html" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\Interactive\resources\collapsed.png" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\Interactive\resources\empty.png" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\Interactive\resources\expanded.png" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\Interactive\resources\folder.png" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\Interactive\resources\tabs.css" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\Interactive\resources\treeView.css" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\Interactive\tabsTmpl.html" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\Interactive\tabsWrap.html" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\Interactive\tabsWrapImperative.html" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\Interactive\tabsWrapNested.html" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\Interactive\treeView.html" />
+    <Content Include="jquery-tmpl-master\demos\samplesCore\parameters.html" />
+    <Content Include="jquery-tmpl-master\demos\samplesTmplPlus\basic.html" />
+    <Content Include="jquery-tmpl-master\demos\samplesTmplPlus\composition.html" />
+    <Content Include="jquery-tmpl-master\demos\samplesTmplPlus\parameters.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\0_local-data-source.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\0_local-data.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\1_remote-data-source.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\1_remote-data.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\2_html-tag-source.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\2_html-tag.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\3_if-else-tag-source.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\3_if-else-tag.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\4_each-tag-source.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\4_each-tag.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\5_javascript-source.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\5_javascript.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\6_hierarchical-data-source.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\0_tmpl-read-only\6_hierarchical-data.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\1_tmpl-interactive\0_accordion-switching-template-source.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\1_tmpl-interactive\0_accordion-switching-template.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\1_tmpl-interactive\1_tree-view-using-tmpl-tag-source.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\1_tmpl-interactive\1_tree-view-using-tmpl-tag.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\1_tmpl-interactive\2_tabs-using-wrap-tag-source.html" />
+    <Content Include="jquery-tmpl-master\demos\step-by-step\1_tmpl-interactive\2_tabs-using-wrap-tag.html" />
+    <Content Include="jquery-tmpl-master\jquery.tmpl.js" />
+    <Content Include="jquery-tmpl-master\jquery.tmpl.min.js" />
+    <Content Include="jquery-tmpl-master\jquery.tmplPlus.js" />
+    <Content Include="jquery-tmpl-master\jquery.tmplPlus.min.js" />
+    <Content Include="jquery-tmpl-master\tests\core.js" />
+    <Content Include="jquery-tmpl-master\tests\index.html" />
+    <Content Include="jquery-tmpl-master\tests\qunit.css" />
+    <Content Include="jquery-tmpl-master\tests\qunit.js" />
+    <Content Include="Jquery-tmpl.js" />
+    <Content Include="Js-Template.js" />
+    <Content Include="Sortable JS\arrow-down.gif" />
+    <Content Include="Sortable JS\arrow-none.gif" />
+    <Content Include="Sortable JS\arrow-up.gif" />
+    <Content Include="Sortable JS\example.css" />
+    <Content Include="Sortable JS\example.html" />
+    <Content Include="Sortable JS\sortable.js" />
+    <Content Include="StyleSheet.css" />
+    <Content Include="TableSort.js" />
+    <Content Include="Test.html" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="jquery-tmpl-master\.gitignore" />
+    <Content Include="jquery-tmpl-master\README.md" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:43830/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

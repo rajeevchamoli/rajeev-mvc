@@ -1,0 +1,39 @@
+﻿@model EF.DAL.Models.Customer
+
+ <tr>
+        <td>
+            @Html.DisplayFor(modelItem => Model.CompanyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.ContactName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.ContactTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Region)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.PostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Country)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Fax)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=Model.CustomerID }) |
+            @Html.ActionLink("Details", "Details", new { id=Model.CustomerID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=Model.CustomerID })
+        </td>
+    </tr>

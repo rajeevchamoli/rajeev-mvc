@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+    <script src="/jquery-tmpl-master/jquery.tmpl.js" type="text/javascript"></script>
+    <style>
+        body
+        {
+            color: #333333;
+            font-family: "Segoe UI",Verdana,Helvetica,Sans-Serif;
+            font-size: 0.85em;
+        }
+
+        #loaderImg
+        {
+            position: relative;
+            top: 100px;
+            left: 100px;
+            height: 50px;
+            width: 50px;
+        }
+
+        .display
+        {
+            visibility: visible;
+        }
+
+        .hide
+        {
+            visibility: hidden;
+        }
+
+        table
+        {
+            border: 0 none;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-top: 0.75em;
+        }
+
+        #View
+        {
+            background-color: #EFEEEF;
+            clear: both;
+            padding-bottom: 35px;
+            height: 300px;
+            overflow-y: scroll;
+        }
+
+        #tableHeader
+        {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: indigo;
+        }
+
+        #customerData tr:nth-child(even)
+        {
+            background-color: azure;
+        }
+
+        #pager
+        {
+            float: right;
+        }
+    </style>
+    <script type="text/javascript">
+
+        (function wire() {
+
+            if (Init()) {
+
+                LoadGrid();
+            }
+
+        })();
+
+        function Init() {
+
+            if (window.localStorage) {
+
+
+
+                return true;
+            }
+            else {
+                return false;
+            }
+
+        }
+
+        function LoadPagedGrid() {
+        }
+
+        function LoadGrid() {
+
+            var xhr = new XMLHttpRequest();
+            var method = 'GET';
+            var url = "http://localhost/Customer/FetchAll";
+            //"http\://localhost/Customer/Fetch/ALFKI?callback=mycallback";
+            if ("withCredentials" in xhr) {
+                xhr.open(method, url, true);
+            } else if (typeof XDomainRequest != "undefined") {
+                xhr = new XDomainRequest();
+                xhr.open(method, url);
+            } else {
+                xhr = null;
+            }
+
+            if (xhr) {
+
+                // this header caused me problem is getting value in responseText.
+                //xhr.setRequestHeader("Content-Type", "text/x-json");
+
+                $('#loaderImg').show();
+                
+                xhr.onreadystatechange = function () {
+
+                    if (xhr.readyState == 4 || xhr.readyState == 0) {
+
+                        if (httpSuccess(xhr)) {
+
+                            // once data if fetched from server in JSON form we need to instansiat and create item property so that template can iterate. 
+                            var customers = { items: eval(httpData(xhr, 'text')) };
+
+                            //// pure javascript way of popluate the data using little JQuery template.
+                            //var domDiv = document.getElementById('customerData');
+                            //var html = "";
+                            //for (var i = 0; i < customers.items.length; i++) {
+                            //    var row = { items: { item: customers.items[i] } };
+                            //    html += '<tr>' + $('#custTemp').tmpl(row).html() +'</tr>';
+                            //}
+                            //domDiv.innerHTML = html;
+
+                            // ***** Jquery way of pushing data to template where it will iterate automatically.
+                            var domDiv = $('#customerData');
+                            domDiv.html($('#custTemp').tmpl(customers));
+                            $('#loaderImg').hide();
+
+                        }
+                    }
+                };
+
+                xhr.send();
+            }
+
+        }
+
+        function mycallback() {
+
+            alert('cross domain response generated');
+        }
+
+        window.onload = function (e) {
+
+            //if (window.sessionStorage) {
+            //    alert("Session Storage Available");
+            //}
+
+            //var arr = ['z', 'D', 'C', 'B', 'A'];
+            //arr.sort();
+            //alert(arr);
+
+            //var arr = ['5', '4', '3', '2', '1'];
+            //arr.sort(function () {
+            //    return arguments[0] - arguments[1];
+            //});
+
+            //alert(arr);
+
+            //var jsonobj = { "name": "George", "age": 29, "friends": ["John", "Sarah", "Albert"] }
+            //var jsonstr = JSON.stringify(jsonobj)
+            //alert(typeof jsonstr)
+        }
+
+        // Determine the success of the HTTP response
+        function httpSuccess(r) {
+            try {
+                // If no server status is provided, and we're actually
+                // requesting a local file, then it was successful
+                return !r.status && location.protocol == "file:" ||
+                // Any status in the 200 range is good
+                (r.status >= 200 && r.status < 300) ||
+                // Successful if the document has not been modified
+                r.status == 304 ||
+                // Safari returns an empty status if the file has not been modified
+                navigator.userAgent.indexOf("Safari") >= 0
+                && typeof r.status == "undefined";
+            } catch (e) { }
+            // If checking the status failed, then assume that the request failed too
+            return false;
+        }
+
+        function httpData(r, type) {
+            // Get the content-type header
+            var ct = r.getResponseHeader("content-type");
+            // If no default type was provided, determine if some
+            // form of XML was returned from the server
+            var data = !type && ct && ct.indexOf("xml") >= 0;
+            // Get the XML Document object if XML was returned from
+            // the server, otherwise return the text contents returned by the server
+            data = type == "xml" || data ? r.responseXML : r.responseText;
+            // If the specified type is "script", execute the returned text
+            // response as if it was JavaScript
+            if (type == "script")
+                eval.call(window, data);
+            // Return the response data (either an XML Document or a text string)
+            return data;
+        }
+
+        function serialize(a) {
+            // The set of serialize results
+            var s = [];
+            // If an array was passed in, assume that it is an array
+            // of form elements
+            if (a.constructor == Array) {
+                // Serialize the form elements
+                for (var i = 0; i < a.length; i++)
+                    s.push(a[i].name + "=" + encodeURIComponent(a[i].value));
+                // Otherwise, assume that it's an object of key/value pairs
+            } else {
+                // Serialize the key/values
+                for (var j in a)
+                    s.push(j + "=" + encodeURIComponent(a[j]));
+            }
+            // Return the resulting serialization
+            return s.join("&");
+        }
+
+        window.onbeforeunload = function (e) {
+
+            //alert("Before close");
+            //var el = document.getElementById('myLink');
+
+            //if (document.createEvent) {
+            //    var event = document.createEvent("MouseEvents");
+            //    event.initEvent("click", true, true);
+            //    el.dispatchEvent(event);
+            //}
+            //    // IE
+            //else if (el.click) {
+            //    el.click();
+
+            //}
+
+            // e.preventDefault();
+
+        };
+
+    </script>
+
+    <!-- template for table row-->
+    <script id="custTemp" type="text/html">
+        {{each items}}
+        <tr>
+            <td>${CustomerID}</td>
+            <td>${CompanyName}</td>
+            <td>${ContactName}</td>
+            <td>${ContactTitle}</td>
+            <td>${Address}</td>
+            <td>${City}</td>
+            <td>${Region}</td>
+            <td>${PostalCode}</td>
+            <td>${Country}</td>
+            <td>${Phone}</td>
+            <td>${Fax}</td>
+        </tr>
+        {{/each}}
+    </script>
+
+</head>
+<body>
+    <div contenteditable="true" id="checkKeys"></div>
+    <!--<div id="loaderImg" >-->
+        <img id="loaderImg" src="http://localhost/Images/page-loader.gif" />
+    <!--</div>-->
+    <div id="View">
+        <table id="customerTable" border='3px' width='auto' frame='box'>
+            <caption>Customer Data</caption>
+            <thead>
+                <tr id="tableHeader">
+                    <td><a href="#">CustomerID</a></td>
+                    <td>CompanyName</td>
+                    <td>ContactName</td>
+                    <td>ContactTitle</td>
+                    <td>Address</td>
+                    <td>City</td>
+                    <td>Region</td>
+                    <td>PostalCode</td>
+                    <td>Country</td>
+                    <td>Phone</td>
+                    <td>Fax</td>
+                </tr>
+            </thead>
+
+            <tbody id="customerData">
+            </tbody>
+        </table>
+    </div>
+    <div id="pager">
+        <a id="previous" href="{{Prev}}">Prev</a>
+        <input id="pageBox" type="text" value="1" />
+        <a id="next" href="{{previous}}">Next</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function Menu(name, submenus) {
+            this.Name = name;
+            this.subMenus = submenus;
+            this.subMenuContainerDiv = null;
+            this.Control = null;
+            this.init = function () {
+                this.Control = document.createElement("span");
+                this.Control.innerHTML = this.Name;
+                this.Control.setAttribute("id", "p" + this.Name);
+                this.Control.addEventListener("mousemove", this.showMenu, false);
+                this.Control.addEventListener("mouseout", this.hideMenu, false);
+                this.createSubMenu();
+            }
+
+            this.createSubMenu = function () {
+                this.subMenuContainerDiv = document.createElement("div");
+                this.subMenuContainerDiv.setAttribute("id", this.Name);
+                this.subMenuContainerDiv.setAttribute("class", "subMenuDiv");
+                var menus = document.createElement("ul");
+                if (this.subMenus) {
+                    for (var i = 0, len = this.subMenus.length; i < len; i++) { 
+                        var val = this.subMenus[i];
+                        var subMenuItem = document.createElement("li");
+                        subMenuItem.innerHTML = val.Name;
+                        menus.appendChild(subMenuItem);
+                    }
+                    
+                    this.subMenuContainerDiv.appendChild(menus);
+                    //this.subMenuContainerDiv.style.display = "none";
+                    this.subMenuContainerDiv.style.visibility = "collapse";
+                }
+            }
+
+            this.showMenu = function () {
+                var subMenuContainerDiv = document.getElementById(this.getAttribute("id").substr(1, 5));
+                subMenuContainerDiv.style.visibility = "visible";
+            }
+
+            this.hideMenu = function () {
+                var subMenuContainerDiv = document.getElementById(this.getAttribute("id").substr(1, 5));
+                subMenuContainerDiv.style.visibility = "collapse";
+            }
+        }
+
+        
+        function createMenu(containerID, items) {
+            var menusTable = document.createElement("table");
+            menusTable.setAttribute("class", "menuTable");
+            var menusRow = document.createElement("tr");
+            for (var i in items) {
+                items[i].init()
+                var menusCell = document.createElement("td");
+                menusCell.appendChild(items[i].Control);
+                menusCell.appendChild(items[i].subMenuContainerDiv);
+                menusRow.appendChild(menusCell);
+            }
+
+            menusTable.appendChild(menusRow);
+
+            var containerDiv = document.getElementById(containerID);
+            containerDiv.appendChild(menusTable);
+        }
+        
+        var menus = [new Menu("Menu1", [new Menu("SubMenu1", null), new Menu("SubMenu2", null)]), new Menu("Menu2", [new Menu("SubMenu3", null), new Menu("SubMenu4", null)])];
+
+        function initApplication() {
+            //get menu data from ajax service
+            //createMenu('bread', menus);
+
+            setCoords();
+        };
+
+        document.onreadystatechange = function () {
+            if (document.readyState == "interactive") {
+                initApplication();
+            }
+        }
+
+        function setCoords() {
+            var imgFrame = document.getElementById("parent");
+            imgFrame.setAttribute("collapse", "false");
+            for (var i = 0; i < imgFrame.childNodes.length; i++) {
+
+                if (imgFrame.childNodes[i].nodeName == "IMG") {
+                    var img = imgFrame.childNodes[i];
+                    //img.style.position = "absolute";
+                    img.setAttribute("coords", img.offsetTop + "," + img.offsetLeft);
+                    img.style.top = img.offsetTop + "px";
+                    img.style.left = img.offsetLeft + "px";
+                    img.setAttribute("id", i);
+                    img.addEventListener("click", function (e) {
+                        var imgFrame = document.getElementById("parent");
+                        
+                        var isCollapse = imgFrame.getAttribute("collapse") === "true";
+                        
+                        // '-webkit-transform': 'rotate(' + rand + 'deg)',
+                        // '-moz-transform': 'rotate(' + rand + 'deg)'
+
+
+                        if (!isCollapse) {
+                            var coords = this.getAttribute("coords").split(',');
+                            var clickedID = this.getAttribute("id");
+                            var offsetTop = coords[0];
+                            var offsetLeft = coords[1];
+                            this.style.zIndex = 100;
+                            for (var i = 0; i < imgFrame.childNodes.length; i++) {
+                                var childImg = imgFrame.childNodes[i];
+                                if (childImg.nodeName == "IMG") {
+
+                                    if (childImg.getAttribute("id") !== clickedID) {
+                                        childImg.style.zIndex = 100 - i;
+                                    }
+                                    childImg.style.top = offsetTop + "px";
+                                    childImg.style.left = offsetLeft + "px";
+                                    childImg.style.position = "absolute";
+                                    // offset  property can't be set but just read
+                                    //childImg.offsetTop = offsetTop;
+                                    //childImg.offsetLeft = offsetLeft;
+                                }
+                            }
+                            
+                        }
+                        else {
+                            for (var i = 0; i < imgFrame.childNodes.length; i++) {
+                                var childImg = imgFrame.childNodes[i];
+                                if (childImg.nodeName == "IMG") {
+                                    var coords = childImg.getAttribute("coords").split(',');
+                                    childImg.style.zIndex = 1;
+                                    childImg.style.top = coords[0] + "px";
+                                    childImg.style.left = coords[1] + "px";
+                                }
+                            }
+                        }
+
+                        imgFrame.setAttribute("collapse", isCollapse ? "false" : "true");
+                        
+                    }, false);
+                }
+
+            }
+        }
+
+    </script>
+    <style type="text/css">
+
+        .subMenuDiv
+        {
+            color:black;
+            background-color:#E5EECC;
+            position: relative;
+            border: 1px solid red;
+            width: auto;
+            display:block;
+            padding: 1px;
+            left:0px;
+            top:0px;
+        }
+        #bread
+        {
+            color: #ccc;
+            background-color: #006;
+            padding: 2px;
+            margin-top: 0px;
+            margin-left: 0px;
+            width:auto;
+            height:30px;
+        }
+        .menuTable
+        {
+            height:inherit
+        }
+        #bread ul
+        {
+            margin-left: 0;
+            margin-top: 0;
+            padding-left: 0;
+            display: inline;
+            border: thin;
+        }
+            #bread ul li
+            {
+                margin-left: 0;
+                padding-left: 2px;
+                border: thin;
+                list-style: none;
+                display: block;
+            }
+        .superTable
+        {
+            width: 100%;
+            height: 662px;
+            background-color: #E0E0E0;
+        }
+        .superLeftCell
+        {
+            width: 147px;
+            background-color: #D8D8D8;
+        }
+        .superMiddleCell
+        {
+            width: 786px;
+            height: 414px;
+            background-color: #A8A8A8;
+        }
+        .superFooterCell
+        {
+            width: 786px;
+            background-color: #E8E8E8;
+        }
+        .headerFooterHeight
+        {
+            height: 30px;
+        }
+
+        div div
+        {
+            width: 30px;
+            float: left;
+            -webkit-transition: all linear 10s;
+        }
+
+        div img
+        {
+            height: 70px;
+            width: 70px;
+            float:left;
+            -moz-transition: all .5s ease-in-out;
+        }
+
+        img:hover
+        {
+            height: 71px;
+            width: 71px;
+            border:solid;
+            clear:left;
+        }
+
+        div:hover
+        {
+            
+            
+        }
+
+        #parent
+        {
+            position: relative;
+            margin: 10px;
+            width: 220px;
+            height: 220px;
+            overflow:visible;
+            background-color:aqua;
+        }
+
+
+    </style>
+</head>
+<body style="height: 665px; width: 1211px;">
+    <form style="visibility:collapse">
+        <table class="superTable">
+            <tr>
+                <td colspan="3" class="headerFooterHeight" >
+                    <div id="bread">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2" class="superLeftCell">&nbsp;</td>
+                <td colspan="2" class="superMiddleCell"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="superFooterCell headerFooterHeight"></td>
+            </tr>
+        </table>
+    </form>
+
+    <form>
+        <div id="parent">
+            <img  src="http://farm4.static.flickr.com/3213/2464885290_208ca5afa7_m.jpg" />
+            <img  src="http://farm3.static.flickr.com/2305/2464064429_2310ab60b2_m.jpg" />
+            <img  src="http://farm3.static.flickr.com/2143/2769889963_7d51ce2702_m.jpg" />
+            <img  src="http://farm1.static.flickr.com/206/459884053_8a7a9dc2c8_m.jpg" />
+            <img  src="http://farm1.static.flickr.com/251/459884041_92ae9dcc0f_m.jpg" />
+            <img  src="http://farm1.static.flickr.com/191/459792641_2771d6afa0_m.jpg" />
+            <img  src="http://farm4.static.flickr.com/3213/2464885290_208ca5afa7_s.jpg" />
+            <img  src="http://farm1.static.flickr.com/206/459884053_8a7a9dc2c8_m.jpg" />
+            <img  src="https://lh5.googleusercontent.com/-IXxUvCkqHFc/AAAAAAAAAAI/AAAAAAAAAAA/cQn8X5OH1Ig/s120-c/photo.jpg" />
+        </div>
+        <div style="visibility:collapse">
+             <img style="float:left" src="http://farm4.static.flickr.com/3213/2464885290_208ca5afa7_m.jpg" />
+             <div style="width:600px;float:none;clear:none">Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span 
+                 Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span 
+                 Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span 
+                 Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span 
+                 Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span 
+                 Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span 
+                 Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span 
+                 Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span Hello this is span 
+             </div>
+        </div>
+    </form>
+</body>
+</html>

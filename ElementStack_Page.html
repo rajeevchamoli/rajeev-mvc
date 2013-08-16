@@ -1,0 +1,381 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        function sum(a, b) {
+            alert(a + b);
+        }
+
+        //sum(10, 20);
+
+        function SendMessage(msg, obj) {
+            this.hello = "";
+            if (arguments.length == 2) {
+                obj.HandleMessage(msg);
+            }
+            else {
+                alert(msg);
+            }
+        }
+
+        /* SendMessage("Hi only one args");
+         SendMessage("Hi two messages", {
+             HandleMessage: function (msg) {
+                 alert("inside the passed on dynamic object");
+             }
+         });*/
+
+        function CheckTypeOf(value) {
+            if (typeof value == "string") {
+
+                var int = parseInt(value);
+                alert(int + 5);
+            }
+            else {
+
+                var char = value.forEach(function (a, i, value) {
+                    alert(a);
+                });
+
+            }
+        }
+
+        //CheckTypeOf("5");
+        //CheckTypeOf(new Array('2','3','5'));
+
+        // Create a new user object that accepts an object of properties
+        function Teacher(properties) {
+            // Iterate through the properties of the object, and make sure
+            // that it's properly scoped (as discussed previously)
+            this.addedBeforeLoop = true;
+            for (var i in properties) {
+                //(function () {
+                // Create a new getter for the property
+                this["get" + i] = function () {
+                    return properties[i];
+                };
+                // Create a new setter for the property
+                this["set" + i] = function (val) {
+                    properties[i] = val;
+                };
+                //})();
+            }
+
+            this.getAge();
+        }
+
+        var teach = new Teacher({ Name: "Rajeev", Age: 29 });
+        //alert(teach.getName());
+        //alert(this.getAge());
+
+        /*************************Object Oriented Javascript***************/
+
+        //Namespace OOPS
+        var OOPS = {}
+        //How to attach method on fly
+        Function.prototype.method = function (funcName, funct) {
+            if (this.prototype) {
+                // attaching the method (but doesn't become real method of this)
+                this.prototype[funcName] = funct;
+            }
+            else {
+                // adding to the this instance, method is part of this.
+                this[funcName] = funct;
+            }
+        }
+
+        //Function.method('AttachedMethod', function () { alert('attched method') });
+        //Function.AttachedMethod();
+
+        Function.prototype.method('inherits', function (parent) {
+
+            var depth = {};
+            // coping all the method of Parent class to Instance who will execute this method.
+            var proto = this.prototype = new parent();
+            // setting the type information about "parent" object to "this".
+            this.prototype.constructor = parent;
+
+            // privilage function, who can look at private variables and available publicly.
+            this.method('executeParent', function (methodName) {
+                if (!(methodName in depth)) {
+                    depth[methodName] = 0;
+                }
+
+                // get the super parent by accessing the parent of current 'parent' class
+                var superParent = parent.prototype
+                var funcToExecute;
+                var returnValue;
+                var currentDepth = depth[methodName];
+                if (currentDepth) {
+                    for (var i = currentDepth; i > 0; i--) {
+                        superParent = superParent.constructor.prototype;
+                    }
+
+                    funcToExecute = superParent[methodName];
+                }
+                else {
+                    // find method in parent of current instance.
+                    if (this.prototype) {
+                        funcToExecute = this.prototype[methodName];
+                    }
+                    /* if methodName is part of current instance (not attached using prototype) then 
+                       call method in super parent as we want to call method in parent instance. */
+                    if (funcToExecute = this[methodName]) {
+                        funcToExecute = superParent[methodName];
+                    }
+                }
+
+                depth[methodName] += 1;
+                returnValue = funcToExecute.apply(this, Array.prototype.slice.apply(arguments, [1]));
+                depth[methodName] -= 1;
+                return returnValue;
+            });
+
+            return this;
+        });
+
+        // copy all the properties from parent instance to child instance (this)
+        Function.prototype.method('copy', function (parent) {
+            for (var i = 1; i < arguments.length; i += 1) {
+                var name = arguments[i];
+                this.prototype[name] = parent.prototype[name];
+            }
+            return this;
+        });
+
+
+        // class person
+        function Person(name) {
+            // private variable
+            this.name = name;
+        }
+
+        //dynamically add GetName method to Person class
+        Person.method("GetName", function () {
+            return this.name;
+        });
+
+        // instance of Person class
+        var per = new Person("hello");
+
+        //alert(per.GetName());
+
+        // create User class
+        function User(name, password) {
+            this.name = name;
+            this.password = password;
+        }
+
+        // Dynamically add GetPassword to User class
+        User.method("GetPassword", function () {
+            return this.password;
+        });
+
+        // User inherit Person class.
+        User.inherits(Person);
+
+        // overriding the GetName method, user got it from Person class.
+        User.method('GetName', function () {
+            return "My name is: " + this.executeParent('GetName');
+        });
+
+        var usr = new User("ChildPerson", "personPwd");
+
+        //alert(usr.GetName());
+
+
+        function Student(clas) {
+            this.class = clas;
+        }
+
+
+        Student.method("GetClass", function () {
+            return this.class;
+        });
+
+        Student.inherits(User);
+
+        var stud = new Student("12th");
+        stud.name = 'student';
+        //alert(stud.GetName());
+
+        /*****************************************************************/
+
+        //var x= 10; y =20;
+        //alert(eval("x+y"));
+
+
+        //<![CDATA[
+        $(window).load(function () {
+            
+            (function ($) {
+                var defaultStuckWithItemFunc = function (wrapper, opts) {
+                    var selector = [opts.itemsSelector, ":"];
+                    if (opts.stuckWithItem == 'first' || opts.stuckWithItem == 'last') {
+                        selector.push(opts.stuckWithItem);
+                    } else {
+                        selector.push("eq(", opts.stuckWithItem, ")");
+                    }
+                    return $(selector.join(""), wrapper)
+                };
+                $.fn.elementStacks = function (options) {
+                    var opts = $.extend({}, $.fn.elementStacks.defaults, options);
+                    return this.each(function () {
+                        var pos, collapsed = false, stackItems = $(opts.itemsSelector, this).css({ 'z-index': 10 });
+                        var $that = this;
+                        stackItems
+                        .each(function (index, img) {
+                            $(img)
+                            .attr('coords', this.offsetTop + ':' + this.offsetLeft)
+                            .css({ 'top': this.offsetTop, 'left': this.offsetLeft });
+                        })
+                        .css({ 'position': 'absolute' })
+                        .click(function (e) {
+                            var $this = $(this);
+                            if (!$this.attr('coords')) {
+                                return;
+                            };
+                            collapsed = !collapsed;
+                            var target = (collapsed) ?
+                            (
+                            (opts.stuckWithItem != null) ?
+                            $((jQuery.isFunction(opts.stuckWithItem) ?
+                            opts.stuckWithItem : defaultStuckWithItemFunc
+                            ).call(this, $that, opts)) : $this
+                            ).css({ 'z-index': 100 }) : null;
+                            $this.one('stackfinished', function () {
+                                if (!target) {
+                                    stackItems.css({ 'z-index': 10 });
+                                }
+                            });
+                            stackItems.each(function (index, stackItem) {
+                                setTimeout(function () {
+                                    $.fn.elementStacks.reStack.call($this, $(stackItem), collapsed, opts, target, index, index == stackItems.length - 1);
+                                }, opts.delay * index);
+                            });
+                        });
+                        if (opts.initialCollapse) {
+                            $(opts.itemsSelector + ":eq(0)", $that).click();
+                        }
+                    });
+                };
+                $.fn.elementStacks.defaults = {
+                    'itemsSelector': 'img',
+                    'rotationDeg': 20,
+                    'delay': 40,
+                    'duration': 900,
+                    'transaction': 'swing',
+                    'stuckWithItem': null, //null, 'first', last', function or index of the stuck element (0-based)
+                    'initialCollapse': false //true if you want the initial state to be collapsed
+                };
+                $.fn.elementStacks.random = function (min, max) {
+                    return Math.floor(Math.random() * (max - min + 1) + min);
+                };
+                $.fn.elementStacks.reStack = function (stackItem, collapsing, options, target, index, last) {
+                    var coords = (target ? target : stackItem).attr('coords').split(':');
+                    var rand = (collapsing ? $.fn.elementStacks.random(-options.rotationDeg, options.rotationDeg) : 0);
+                    var $that = this;
+                    stackItem.css({
+                        '-webkit-transform': 'rotate(' + rand + 'deg)',
+                        '-moz-transform': 'rotate(' + rand + 'deg)'
+                    }).animate({
+                        top: parseInt(coords[0]) + rand,
+                        left: parseInt(coords[1]) + rand
+                    }, options.duration,
+                    options.transaction,
+                    function () {
+                        if (last) {
+                            $that.trigger('stackfinished');
+                        }
+                    }
+                    );
+                };
+            })(jQuery);
+            //END PLUGIN
+            /*
+            * Easing Plugin (http://gsgd.co.uk/sandbox/jquery/easing/)
+            * NOT required but recommended.
+            */
+            jQuery.extend(jQuery.easing, {
+                easeOutBack: function (x, t, b, c, d, s) {
+                    if (s == undefined) s = 1.70158;
+                    return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+                }
+            });
+            //Usage
+            $('#wrapper').elementStacks({
+                'transaction': 'easeOutBack',
+                'initialCollapse': true
+            });
+        });//]]> 
+    </script>
+
+    <style>
+        body
+        {
+            background-color: #000;
+            font-family: "Georgia", "Times New Roman", serif;
+            font-size: .8em;
+            color: #fff;
+            text-align: center;
+            text-shadow: 0 -1px 0 #000;
+        }
+
+        h1
+        {
+            font-size: 1.7em;
+            line-height: 150%;
+        }
+
+        #wrapper
+        {
+            position: relative;
+            height: 320px;
+            width: 280px;
+            margin: 15px auto;
+        }
+
+        img
+        {
+            position: relative;
+            float: left;
+            padding: 0;
+            margin: 5px;
+            -webkit-box-shadow: 0 0 5px #000;
+            -moz-box-shadow: 0 0 5px #000;
+            border: solid 2px #FFFAF2;
+            border-bottom: solid 15px #FFFAF2;
+            -webkit-transition: -webkit-transform 0.20s ease-in-out;
+            -moz-transition: -moz-transform 0.20s ease-in-out;
+        }
+
+        a
+        {
+            color: #FFFFFF;
+        }
+    </style>
+
+    
+</head>
+<body>
+    <div id="wrapper">
+        <img width="75" height="75" src="http://farm4.static.flickr.com/3213/2464885290_208ca5afa7_m.jpg" />
+        <img width="75" height="75" src="http://farm3.static.flickr.com/2305/2464064429_2310ab60b2_m.jpg" />
+        <img width="75" height="75" src="http://farm3.static.flickr.com/2143/2769889963_7d51ce2702_m.jpg" />
+        <img width="75" height="75" src="http://farm1.static.flickr.com/206/459884053_8a7a9dc2c8_m.jpg" />
+        <img width="75" height="75" src="http://farm1.static.flickr.com/251/459884041_92ae9dcc0f_m.jpg" />
+        <img width="75" height="75" src="http://farm1.static.flickr.com/214/459884021_17921233c5_m.jpg" />
+        <img width="75" height="75" src="http://farm1.static.flickr.com/191/459792641_2771d6afa0_m.jpg" />
+        <img width="75" height="75" src="http://farm4.static.flickr.com/3213/2464885290_208ca5afa7_s.jpg" />
+        <img width="75" height="75" src="http://farm1.static.flickr.com/206/459884053_8a7a9dc2c8_m.jpg" />
+    </div>
+
+    <a href="http://www.marcofucci.com/tumblelog/15/mar/2010/elementstack_v1-1/" target="_blank">find out more</a>
+
+</body>
+</html>

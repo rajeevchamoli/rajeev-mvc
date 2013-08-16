@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function Menu(name, submenus) {
+            this.Name = name;
+            this.subMenus = submenus;
+            this.subMenuContainerDiv = null;
+            this.Control = null;
+            this.init = function () {
+                this.Control = document.createElement("span");
+                this.Control.innerHTML = this.Name;
+                this.Control.setAttribute("id", "p" + this.Name);
+                this.Control.addEventListener("mousemove", this.showMenu, false);
+                this.Control.addEventListener("mouseout", this.hideMenu, false);
+                this.createSubMenu();
+            }
+
+            this.createSubMenu = function () {
+                this.subMenuContainerDiv = document.createElement("div");
+                this.subMenuContainerDiv.setAttribute("id", this.Name);
+                this.subMenuContainerDiv.setAttribute("class", "subMenuDiv");
+                var menus = document.createElement("ul");
+                if (this.subMenus) {
+                    for (var i = 0, len = this.subMenus.length; i < len; i++) { 
+                        var val = this.subMenus[i];
+                        var subMenuItem = document.createElement("li");
+                        subMenuItem.innerHTML = val.Name;
+                        menus.appendChild(subMenuItem);
+                    }
+                    
+                    this.subMenuContainerDiv.appendChild(menus);
+                    //this.subMenuContainerDiv.style.display = "none";
+                    this.subMenuContainerDiv.style.visibility = "collapse";
+                }
+            }
+
+            this.showMenu = function () {
+                var subMenuContainerDiv = document.getElementById(this.getAttribute("id").substr(1, 5));
+                subMenuContainerDiv.style.visibility = "visible";
+            }
+
+            this.hideMenu = function () {
+                var subMenuContainerDiv = document.getElementById(this.getAttribute("id").substr(1, 5));
+                subMenuContainerDiv.style.visibility = "collapse";
+            }
+        }
+
+        
+        function createMenu(containerID, items) {
+            var menusTable = document.createElement("table");
+            menusTable.setAttribute("class", "menuTable");
+            var menusRow = document.createElement("tr");
+            for (var i in items) {
+                items[i].init()
+                var menusCell = document.createElement("td");
+                menusCell.appendChild(items[i].Control);
+                menusCell.appendChild(items[i].subMenuContainerDiv);
+                menusRow.appendChild(menusCell);
+            }
+
+            menusTable.appendChild(menusRow);
+
+            var containerDiv = document.getElementById(containerID);
+            containerDiv.appendChild(menusTable);
+        }
+        
+        var menus = [new Menu("Menu1", [new Menu("SubMenu1", null), new Menu("SubMenu2", null)]), new Menu("Menu2", [new Menu("SubMenu3", null), new Menu("SubMenu4", null)])];
+
+        function initApplication() {
+            //get menu data from ajax service
+            createMenu('bread', menus);
+        };
+
+        document.onreadystatechange = function () {
+            if (document.readyState == "interactive") {
+                initApplication();
+            }
+        }
+
+    </script>
+    <style type="text/css">
+
+        .subMenuDiv
+        {
+            color:black;
+            background-color:#E5EECC;
+            position: relative;
+            border: 1px solid red;
+            width: auto;
+            display:block;
+            padding: 1px;
+            left:0px;
+            top:0px;
+        }
+
+        #bread
+        {
+            color: #ccc;
+            background-color: #006;
+            padding: 2px;
+            margin-top: 0px;
+            margin-left: 0px;
+            width:auto;
+            height:30px;
+        }
+
+        .menuTable
+        {
+            height:inherit
+        }
+
+
+        #bread ul
+        {
+            margin-left: 0;
+            margin-top: 0;
+            padding-left: 0;
+            display: inline;
+            border: thin;
+        }
+
+            #bread ul li
+            {
+                margin-left: 0;
+                padding-left: 2px;
+                border: thin;
+                list-style: none;
+                display: block;
+            }
+
+        .superTable
+        {
+            width: 100%;
+            height: 662px;
+            background-color: #E0E0E0;
+        }
+        .superLeftCell
+        {
+            width: 147px;
+            background-color: #D8D8D8;
+        }
+        .superMiddleCell
+        {
+            width: 786px;
+            height: 414px;
+            background-color: #A8A8A8;
+        }
+        .superFooterCell
+        {
+            width: 786px;
+            background-color: #E8E8E8;
+        }
+        .headerFooterHeight
+        {
+            height: 30px;
+        }
+
+        div div
+        {
+            width:30px;
+            float:left
+        }
+        div:hover
+        {
+            background-color: yellow
+        }
+
+
+    </style>
+</head>
+<body style="height: 665px; width: 1211px;">
+    <form style="visibility:collapse">
+        <table class="superTable">
+            <tr>
+                <td colspan="3" class="headerFooterHeight" >
+                    <div id="bread">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2" class="superLeftCell">&nbsp;</td>
+                <td colspan="2" class="superMiddleCell"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="superFooterCell headerFooterHeight"></td>
+            </tr>
+        </table>
+    </form>
+
+    <form>
+        <div id="parent" style="width:200px;">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+            <div>5</div>
+            <div><img src="https://lh5.googleusercontent.com/-IXxUvCkqHFc/AAAAAAAAAAI/AAAAAAAAAAA/cQn8X5OH1Ig/s120-c/photo.jpg" /></div>
+        </div>
+    </form>
+</body>
+</html>

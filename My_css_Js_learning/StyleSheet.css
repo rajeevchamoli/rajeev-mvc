@@ -1,0 +1,34 @@
+﻿body
+{
+}
+
+#menuDiv
+{
+    position:relative;
+    border:1px solid red;
+    margin:2em;
+    width:10em;
+    padding:5px 5px, 5px, 5px; 
+}
+
+#bread {
+ color: #ccc;
+ background-color: #006;
+ padding: 3px;
+ margin-bottom: 25px;
+ }
+#bread ul {
+ margin-left: 0;
+ padding-left: 0;
+ display: inline;
+ border: none;
+ }
+ #bread ul li {
+ margin-left: 0;
+ padding-left: 2px;
+ border: none;
+ list-style: none;
+ display: inline;
+ }
+
+
